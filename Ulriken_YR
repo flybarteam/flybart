@@ -39,4 +39,5 @@ def getForecast():
     return windDirection[tmp], windSpeed[tmp]
 
 print(update())
-print(getForecast())
+print(getForecast()[0])
+print(getForecast()[1])
