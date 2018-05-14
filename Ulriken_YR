@@ -4,37 +4,39 @@ import xml.etree.ElementTree as ET
 
 Ulriken_XML = ET.parse(urllib.request.urlopen('https://www.yr.no/sted/Norge/Hordaland/Bergen/Ulriken/varsel.xml'))
 root = Ulriken_XML.getroot()
-windDirection = []
-windSpeed = []
-period = []
-tmp = 0
+
 def update():
     # Get next / Last update.
     for LU in root.iter('lastupdate'):
-     Lastupdate = (LU).text
+     Lastupdate = LU.text
     for NU in root.iter('nextupdate'):
-        Nextupdate = (NU).text
-    print(Lastupdate)
-    print(Nextupdate)
+        Nextupdate = NU.text
+        Lastupdate = LU.text
 
-# Getting windspeed from YR
-for WS in root.iter('windSpeed'):
-    windSpeed.append(round(float(WS.get('mps'))))
+    return Nextupdate, Lastupdate
 
-# Getting wind direction from YR
-for WD in root.iter('windDirection'):
-    windDirection.append(WD.get('code'))
+def getForecast():
+    windDirection = []
+    windSpeed = []
+    period = []
+    tmp = 0
+    # Getting windspeed from YR
+    for WS in root.iter('windSpeed'):
+        windSpeed.append(round(float(WS.get('mps'))))
 
-for T in root.iter('time'):
-    if T.get('period') is not None:
-        period.append(T.get('period'))
+    # Getting wind direction from YR
+    for WD in root.iter('windDirection'):
+        windDirection.append(WD.get('code'))
 
-# Printing the result
-for a in windDirection:
-    while period[tmp] == '0' or period[tmp] == '3':
-        if len(period) > tmp:
-            tmp = tmp + 1
-    print(windSpeed[tmp], windDirection[tmp], period[tmp])
-    if len(period) > tmp:
+    for T in root.iter('time'):
+        if T.get('period') is not None:
+            period.append(T.get('period'))
+
+    # Returning first forecast for period 12:00 to 18:00
+    tmp = 0
+    while period[tmp] != '1':
         tmp = tmp + 1
-update()
+    return windDirection[tmp], windSpeed[tmp]
+
+print(update())
+print(getForecast())
