@@ -20,7 +20,6 @@ def meldtvind(retninghastighet):
         vind[retninghastighet] += 1
 
     print(vind)
-    #if retninghastighet == 'exit':    # Kan bruke denne hvis vi skal ha dette i en loop
     fil = open('C:\\Users\\Anders Herseth\\Documents\\flybartest.txt', 'w')   #Åpner filen i skrivemodus
     utskrift = json.dumps(vind)                                               #Gjør om filen til en string
     fil.write(utskrift)                                                       #Lagrer filen
