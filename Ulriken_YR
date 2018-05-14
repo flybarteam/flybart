@@ -8,10 +8,18 @@ windDirection = []
 windSpeed = []
 period = []
 tmp = 0
+def update():
+    # Get next / Last update.
+    for LU in root.iter('lastupdate'):
+     Lastupdate = (LU).text
+    for NU in root.iter('nextupdate'):
+        Nextupdate = (NU).text
+    print(Lastupdate)
+    print(Nextupdate)
 
 # Getting windspeed from YR
 for WS in root.iter('windSpeed'):
-    windSpeed.append(WS.get('mps'))
+    windSpeed.append(round(float(WS.get('mps'))))
 
 # Getting wind direction from YR
 for WD in root.iter('windDirection'):
@@ -24,6 +32,9 @@ for T in root.iter('time'):
 # Printing the result
 for a in windDirection:
     while period[tmp] == '0' or period[tmp] == '3':
-        tmp = tmp + 1
+        if len(period) > tmp:
+            tmp = tmp + 1
     print(windSpeed[tmp], windDirection[tmp], period[tmp])
-    tmp = tmp + 1
+    if len(period) > tmp:
+        tmp = tmp + 1
+update()
