@@ -19,10 +19,11 @@ def getForecast():
     windDirection = []
     windSpeed = []
     period = []
+    rain = []
     tmp = 0
     # Getting windspeed from YR
     for WS in root.iter('windSpeed'):
-        windSpeed.append(round(float(WS.get('mps'))))
+        windSpeed.append(str(round(float(WS.get('mps')))))
 
     # Getting wind direction from YR
     for WD in root.iter('windDirection'):
@@ -32,12 +33,17 @@ def getForecast():
         if T.get('period') is not None:
             period.append(T.get('period'))
 
+    # Getting rain forecast from YR    
+    for R in root.iter('precipitation'):
+        rain.append(str(round(float(R.get('value')))))
+
     # Returning first forecast for period 12:00 to 18:00
     tmp = 0
     while period[tmp] != '1':
-        tmp = tmp + 1
+        tmp += 1
+    # Adding '-R' to the end of the wind direction if it's rainy
+    if rain[tmp] != '0':
+        windDirection[tmp] = windDirection[tmp]+'-R'
     return windDirection[tmp], windSpeed[tmp]
 
-print(update())
-print(getForecast()[0])
-print(getForecast()[1])
+print(getForecast())
