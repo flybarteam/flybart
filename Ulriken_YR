@@ -61,14 +61,14 @@ Lastupdate_M = Lastupdate[14:16]
 Nextupdate_H = Nextupdate[11:13]
 Nextupdate_M = Nextupdate[14:16]
 
-while time.localtime()[3] < 11: #int(Nextupdate_H):
+while time.localtime()[3] < int(Nextupdate_H):
     print('Waiting for next update')
     print('Last update was', Lastupdate_H + ':' + Lastupdate_M)
     print('Next update is scheduled to', Nextupdate_H + ':' + Nextupdate_M)
     print('.................................')
     time.sleep(5)
     
-while Lastupdate != update(root)[1]:
+while Lastupdate == update(root)[1]:
     update(root)
     Nextupdate = update(root)[0]
     time.sleep (300)
