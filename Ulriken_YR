@@ -69,7 +69,7 @@ while Lastupdate == update()[1]:
     time.sleep (300)
     print('Slept for 5 minutes')
     print('Still no new update...')
-    print('Will try again in 5 minutes
+    print('Will try again in 5 minutes')
     print('...........................')
 
 print(Nextupdate)
