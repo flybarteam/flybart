@@ -60,7 +60,7 @@ def getForecast():
 
     # Returning first forecast for period 12:00 to 18:00
     tmp = 0
-    while period[tmp] != '1':
+    while period[tmp] != '2':
         tmp = tmp + 1
     return windDirection[tmp], windSpeed[tmp]
 
