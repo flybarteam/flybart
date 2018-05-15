@@ -3,10 +3,12 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import time
 
-Ulriken_XML = ET.parse(urllib.request.urlopen('https://www.yr.no/sted/Norge/Hordaland/Bergen/Ulriken/varsel.xml'))
-root = Ulriken_XML.getroot()
+def open_YR():
+    Ulriken_XML = ET.parse(urllib.request.urlopen('https://www.yr.no/sted/Norge/Hordaland/Bergen/Ulriken/varsel.xml'))
+    root = Ulriken_XML.getroot()
+    return root
 
-def update():
+def update(root):
     # Get next / Last update.
     for LU in root.iter('lastupdate'):
      Lastupdate = LU.text
@@ -16,7 +18,8 @@ def update():
 
     return Nextupdate, Lastupdate
 
-def getForecast():
+def getForecast(root):
+    open_YR()
     windDirection = []
     windSpeed = []
     period = []
@@ -47,8 +50,10 @@ def getForecast():
         windDirection[tmp] = windDirection[tmp]+'-R'
     return windDirection[tmp], windSpeed[tmp]
 
-update()
-Update_time = update()
+
+root = open_YR()
+update(root)
+Update_time = update(root)
 Nextupdate = Update_time[0]
 Lastupdate = Update_time[1]
 Lastupdate_H = Lastupdate[11:13]
@@ -56,16 +61,16 @@ Lastupdate_M = Lastupdate[14:16]
 Nextupdate_H = Nextupdate[11:13]
 Nextupdate_M = Nextupdate[14:16]
 
-while time.localtime()[3] < int(Nextupdate_H):
-    time.sleep(10)
+while time.localtime()[3] < 11: #int(Nextupdate_H):
     print('Waiting for next update')
     print('Last update was', Lastupdate_H + ':' + Lastupdate_M)
     print('Next update is scheduled to', Nextupdate_H + ':' + Nextupdate_M)
     print('.................................')
+    time.sleep(5)
     
-while Lastupdate == update()[1]:
-    update()
-    Nextupdate = update()[0]
+while Lastupdate != update(root)[1]:
+    update(root)
+    Nextupdate = update(root)[0]
     time.sleep (300)
     print('Slept for 5 minutes')
     print('Still no new update...')
@@ -77,4 +82,4 @@ print(Nextupdate_H)
 print(Nextupdate_M)
 print(Lastupdate)
 print(time.localtime()[3])
-
+print(getForecast(root))
