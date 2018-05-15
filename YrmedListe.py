@@ -68,4 +68,5 @@ def getForecast():
 #print(getForecast())
 
 retninghastighet = str(getForecast())
+retninghastighet = retninghastighet.replace('(', '').replace(')', '').replace(",", "").replace("'", "") # Dette for å fjerne litt characters
 meldtvind(retninghastighet)
