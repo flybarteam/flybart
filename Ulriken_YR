@@ -46,15 +46,23 @@ def getForecast(root):
         rain.append(str(round(float(R.get('value')))))
 
     # Returning first forecast for period 12:00 to 18:00
+    # If local time is 12:00 or earlier, it will show the forecast for the current day.
+    # if local time is past 12:00, it will show the forecast for the next day.
     tmp = 0
-    while period[tmp] != '1':
-        tmp += 1
-    # Adding '-R' to the end of the wind direction if it's rainy
+    if time.localtime()[3] < 12:
+        while period[tmp] != '2':
+            tmp += 1
+    else:
+        tmp = 3
+        while period[tmp] != '2':
+            tmp += 1
+        # Adding '-R' to the end of the wind direction if it's rainy
     if rain[tmp] != '0':
         windDirection[tmp] = windDirection[tmp] + '-R'
     return windDirection[tmp], windSpeed[tmp]
 
 root = open_YR()
+testing = getForecast(root)
 update(root)
 Update_time = update(root)
 Nextupdate = Update_time[0]
@@ -81,7 +89,7 @@ while Lastupdate == update(root)[1]:
         print('Still no new update...')
         print('Will try again in 5 minutes')
         print('...........................')
-        
+
 if __name__ == "__main__":
     print(Nextupdate)
     print(Nextupdate_H)
