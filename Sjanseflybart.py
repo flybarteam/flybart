@@ -27,14 +27,25 @@ def sjanseflybart():
     except json.decoder.JSONDecodeError:
         dictionary = {}                 # Hvis filen er tom, skal "dictionary" defineres som en tom dictionary
 
-
-    sjanseflybart = listefly[retninghastighet] / listevær[retninghastighet] * 100 #Deler flybaredager på meldt vind, ganger 100
-
     today = DT.date.today()
     tomorrow = today + DT.timedelta(days=1)
 
-    print('Sjanse for at det er flybart imorgen ' + str(tomorrow)  + ': ' + str(round(float(sjanseflybart))) + '%')
+    try:
+        sjanseflybart = listefly[retninghastighet] / listevær[retninghastighet] * 100 #Deler flybaredager på meldt vind, ganger 100
+    except KeyError:
+        None
 
-    flysjanse = open('C:\\Users\\Anders Herseth\\Documents\\flysjanse.txt', 'w')  # Åpner filen som ligger lagret
-    flysjanse.write(str(sjanseflybart))                                           # Skriver til filen
-    flysjanse.close()                                                             # Lukker filen
+    try:
+        print('Sjanse for at det er flybart imorgen ' + str(tomorrow) + ': ' + str(round(float(sjanseflybart))) + '%')
+    except UnboundLocalError:
+        print('Sjanse for at det er flybart imorgen : 0 %')
+
+
+    try:
+        flysjanse = open('C:\\Users\\Anders Herseth\\Documents\\flysjanse.txt', 'w')  # Åpner filen som ligger lagret
+        flysjanse.write(str(sjanseflybart))                                           # Skriver til filen
+        flysjanse.close()                                                             # Lukker filen
+    except UnboundLocalError:
+        flysjanse = open('C:\\Users\\Anders Herseth\\Documents\\flysjanse.txt', 'w')  # Åpner filen som ligger lagret
+        flysjanse.write('0%')  # Skriver til filen
+        flysjanse.close()
