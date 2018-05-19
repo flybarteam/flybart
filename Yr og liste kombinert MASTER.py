@@ -12,6 +12,7 @@ import Flybare_dager
 import Sjanseflybart
 MatiasYr2.open_YR() #Henter værvarselet for dagen imorgen
 
+Sjanseflybart.sjanseflybart()
 
 retninghastighet = str(MatiasYr2.getForecast(MatiasYr2.open_YR()))
 
@@ -28,4 +29,4 @@ Datolisteuthenting.datoListeuthenting()         #Henter hvilken vind det var for
 Flybare_dager.flydager()
 print('Dager det var flybart med vind: \n' + str(Flybare_dager.flydager()) + '\n')
 
-Sjanseflybart.sjanseflybart()
+
