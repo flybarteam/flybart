@@ -43,7 +43,7 @@ def sjanseflybart():
 
     try:
         flysjanse = open('C:\\Users\\Anders Herseth\\Documents\\flysjanse.txt', 'w')  # Åpner filen som ligger lagret
-        flysjanse.write(str(sjanseflybart))                                           # Skriver til filen
+        flysjanse.write(str(sjanseflybart) + '%')                                           # Skriver til filen
         flysjanse.close()                                                             # Lukker filen
     except UnboundLocalError:
         flysjanse = open('C:\\Users\\Anders Herseth\\Documents\\flysjanse.txt', 'w')  # Åpner filen som ligger lagret
