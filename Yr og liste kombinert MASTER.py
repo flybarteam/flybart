@@ -13,7 +13,7 @@ import Flybare_dager
 import Sjanseflybart
 import time
 
-
+Sjanseflybart.sjanseflybart()
 sistkjørt = open('C:\\Users\\Anders Herseth\\Documents\\sistkjørt.txt', 'r')  # Åpner filen som ligger lagret#
 sistkjørt = sistkjørt.read()                                                  # Leser filen som ligger lagret
 
@@ -21,7 +21,7 @@ if str(time.localtime()[2]) != sistkjørt:
 
     MatiasYr2.open_YR() #Henter værvarselet for dagen imorgen
 
-    Sjanseflybart.sjanseflybart()
+
 
     retninghastighet = str(MatiasYr2.getForecast(MatiasYr2.open_YR()))
 
