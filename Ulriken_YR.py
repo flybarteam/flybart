@@ -23,7 +23,7 @@ def update(root):
 
 
 def getForecast(root):
-    open_YR()
+     open_YR()
     windDirection = []
     windSpeed = []
     period = []
@@ -62,8 +62,6 @@ def getForecast(root):
     return windDirection[tmp], windSpeed[tmp]
 
 root = open_YR()
-testing = getForecast(root)
-update(root)
 Update_time = update(root)
 Nextupdate = Update_time[0]
 Lastupdate = Update_time[1]
