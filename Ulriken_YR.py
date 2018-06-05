@@ -23,7 +23,7 @@ def update(root):
 
 
 def getForecast(root):
-     open_YR()
+    open_YR()
     windDirection = []
     windSpeed = []
     period = []
@@ -61,32 +61,38 @@ def getForecast(root):
         windDirection[tmp] = windDirection[tmp] + '-R'
     return windDirection[tmp], windSpeed[tmp]
 
+def GetCurrentForecast(root):
+    open_YR()
+    windDirection = []
+    windSpeed = []
+    period = []
+    rain = []
+    # Getting windspeed from YR
+    for WS in root.iter('windSpeed'):
+        windSpeed.append(str(round(float(WS.get('mps')))))
+
+    # Getting wind direction from YR
+    for WD in root.iter('windDirection'):
+        windDirection.append(WD.get('code'))
+
+    for T in root.iter('time'):
+        if T.get('period') is not None:
+            period.append(T.get('period'))
+
+    # Getting rain forecast from YR
+    for R in root.iter('precipitation'):
+        rain.append(str(round(float(R.get('value')))))
+
+    if rain[0] != '0':
+        windDirection[0] = windDirection[0] + '-R'
+    return windDirection[0], windSpeed[0]
+
 root = open_YR()
+testing = getForecast(root)
+update(root)
 Update_time = update(root)
-Nextupdate = Update_time[0]
-Lastupdate = Update_time[1]
-Lastupdate_H = Lastupdate[11:13]
-Lastupdate_M = Lastupdate[14:16]
-Nextupdate_H = Nextupdate[11:13]
-Nextupdate_M = Nextupdate[14:16]
-
-while time.localtime()[3] < int(Nextupdate_H)-2:
-    if __name__ == "__main__":
-        print('Waiting for next update')
-        print('Last update was', Lastupdate_H + ':' + Lastupdate_M)
-        print('Next update is scheduled to', Nextupdate_H + ':' + Nextupdate_M)
-        print('.................................')
-    time.sleep(5)
-
-while Lastupdate == update(root)[1]:
-    update(root)
-    Nextupdate = update(root)[0]
-    time.sleep(10)
-    if __name__ == "__main__":
-        print('Slept for 5 minutes')
-        print('Still no new update...')
-        print('Will try again in 5 minutes')
-        print('...........................')
+CurrentWindSpeed = GetCurrentForecast(root)[1]
+CurrentWindDirection = GetCurrentForecast(root)[0]
 
 if __name__ == "__main__":
     print(Nextupdate)
@@ -95,3 +101,5 @@ if __name__ == "__main__":
     print(Lastupdate)
     print(time.localtime()[3])
     print(getForecast(root))
+    print(CurrentWindSpeed)
+    print(CurrentWindDirection)
