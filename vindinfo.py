@@ -46,4 +46,3 @@ def vindinfoen():
 
 
     print(retninghastighet)
-	print("Test")
